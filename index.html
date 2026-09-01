@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Siban Bansal Playground — interactive experiments, visualizations and tools for developers and learners.">
+<title>Playground - Simran Bansal</title>
+<style>
+:root{
+  --bg:#070b14;--bg2:#0c1220;--card:rgba(16,23,39,.78);
+  --text:#f4f7ff;--muted:#99a7c2;--line:#24304a;
+  --accent:#8ab4ff;--accent2:#b79cff;--max:1160px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(89,120,255,.16),transparent 30%),
+    radial-gradient(circle at 85% 20%,rgba(164,107,255,.12),transparent 28%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 60%,var(--bg))
+}
+a{color:inherit;text-decoration:none}
+.container{width:min(var(--max),calc(100% - 40px));margin:auto}
+nav{
+  height:72px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(36,48,74,.65)
+}
+.brand{font-weight:750;letter-spacing:-.03em;font-size:17px}
+.brand span{color:var(--muted);font-weight:500}
+.navlinks{display:flex;gap:24px;color:var(--muted);font-size:14px}
+.navlinks a:hover{color:var(--text)}
+.hero{padding:105px 0 82px;text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--line);
+  border-radius:999px;background:rgba(16,23,39,.6);color:#b7c4dd;font-size:13px
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#65d391;box-shadow:0 0 15px #65d391}
+h1{
+  font-size:clamp(48px,8vw,86px);line-height:.98;letter-spacing:-.065em;
+  margin:25px 0 22px;font-weight:800
+}
+.gradient{background:linear-gradient(100deg,#fff,#9bbdff 50%,#c6a9ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:650px;margin:0 auto;color:var(--muted);font-size:18px;line-height:1.7}
+.actions{display:flex;justify-content:center;gap:11px;margin-top:30px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:9px;
+  border:1px solid var(--line);background:#121b2e;font-size:14px;font-weight:650
+}
+.btn.primary{background:#eef4ff;color:#0a1020;border-color:#eef4ff}
+.btn:hover{transform:translateY(-1px)}
+section{padding:42px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:20px}
+.section-head h2{margin:0;font-size:25px;letter-spacing:-.03em}
+.section-head p{margin:0;color:var(--muted);font-size:14px}
+.feature{
+  display:grid;grid-template-columns:1.35fr .65fr;gap:0;overflow:hidden;
+  border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(25,37,62,.9),rgba(12,18,32,.94));
+  box-shadow:0 20px 70px rgba(0,0,0,.2)
+}
+.feature-main{padding:38px}
+.icon{
+  width:50px;height:50px;border:1px solid #354766;border-radius:13px;
+  display:grid;place-items:center;background:#17243b;font-size:23px
+}
+.feature h3{font-size:31px;letter-spacing:-.04em;margin:22px 0 10px}
+.feature p{color:var(--muted);max-width:620px;line-height:1.7}
+.stats{display:flex;gap:25px;margin:24px 0 28px;flex-wrap:wrap}
+.stat strong{display:block;font-size:21px}.stat span{font-size:12px;color:var(--muted)}
+.feature-side{
+  border-left:1px solid var(--line);padding:28px;background:rgba(5,9,18,.22);
+  display:flex;flex-direction:column;justify-content:center
+}
+.mock{
+  border:1px solid #2b3b5a;border-radius:12px;background:#0a111f;padding:14px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3)
+}
+.mockbar{display:flex;gap:5px;margin-bottom:13px}.mockbar i{width:7px;height:7px;border-radius:50%;background:#33425d}
+.mockrow{height:9px;border-radius:99px;background:#1c2941;margin:8px 0}.mockrow.short{width:55%}.mockrow.mid{width:76%}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{
+  padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--card);
+  transition:.2s ease
+}
+.card:hover{transform:translateY(-3px);border-color:#3a4d70}
+.card .cardicon{font-size:21px;margin-bottom:18px}
+.card h3{margin:0 0 7px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.status{display:inline-block;margin-top:17px;color:#8492ac;font-size:12px;border:1px solid var(--line);padding:4px 8px;border-radius:999px}
+.coming{
+  margin-top:14px;padding:25px;border:1px dashed #33415d;border-radius:14px;text-align:center;
+  color:var(--muted);background:rgba(12,18,32,.4)
+}
+.coming strong{color:#dbe5f8}
+.about{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px
+}
+.aboutbox{padding:27px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.aboutbox h3{margin-top:0}.aboutbox p{color:var(--muted);line-height:1.7}
+footer{padding:45px 0 55px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.footerrow{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+@media(max-width:850px){
+  .feature,.about{grid-template-columns:1fr}.feature-side{border-left:0;border-top:1px solid var(--line)}
+  .cards{grid-template-columns:1fr 1fr}.hero{padding-top:75px}
+}
+@media(max-width:560px){
+  .container{width:min(var(--max),calc(100% - 28px))}
+  .navlinks{gap:12px}.navlinks a:nth-child(2){display:none}
+  .cards{grid-template-columns:1fr}.feature-main{padding:27px}h1{font-size:50px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a class="brand" href="/">Simran Bansal <span>/ Playground</span></a>
+      <div class="navlinks">
+        <a href="#playgrounds">Playgrounds</a>
+        <a href="#about">About</a>
+        <a href="https://blog.sibansal.dev/" target="_blank" rel="noopener">Blog ↗</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow"><span class="dot"></span> Interactive learning lab</div>
+      <h1>Build. Explore.<br><span class="gradient">Understand.</span></h1>
+      <p>
+        Interactive experiments, visualizations, and developer playgrounds by Simran Bansal
+        designed to turn difficult concepts into things you can see, step through, and understand.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#playgrounds">Explore playgrounds ↓</a>
+        <a class="btn" href="https://sibansal.dev/" target="_blank" rel="noopener">Visit Portfolio ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="playgrounds">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Playgrounds</h2>
+          <p>Interactive tools you can actually play with.</p>
+        </div>
+      </div>
+
+      <article class="feature">
+        <div class="feature-main">
+          <div class="icon">🧠</div>
+          <h3>DSA Pattern Lab</h3>
+          <p>
+            Learn the 25 core DSA patterns through problem-driven visualizations.
+            Step through the algorithm, understand the invariant, follow the flow,
+            and connect the pattern to real problems.
+          </p>
+          <div class="stats">
+            <div class="stat"><strong>25</strong><span>patterns</span></div>
+            <div class="stat"><strong>99</strong><span>problems</span></div>
+            <div class="stat"><strong>Step-by-step</strong><span>simulations</span></div>
+          </div>
+          <a class="btn primary" href="https://sibansal.github.io/playground/dsa_25_patterns_all_article_problems_interactive.html" target="_blank" rel="noopener">
+            Open DSA Playground →
+          </a>
+        </div>
+        <div class="feature-side">
+          <div class="mock" aria-hidden="true">
+            <div class="mockbar"><i></i><i></i><i></i></div>
+            <div class="mockrow"></div>
+            <div class="mockrow mid"></div>
+            <div class="mockrow short"></div>
+            <div class="mockrow"></div>
+            <div class="mockrow mid"></div>
+            <div class="mockrow short"></div>
+          </div>
+          <p style="font-size:13px;color:var(--muted);margin:14px 2px 0">
+            Pattern → thinking → flow → simulation → problem
+          </p>
+        </div>
+      </article>
+
+      <div class="section-head" style="margin-top:46px">
+        <div><h2>More coming</h2><p>The playground will grow over time.</p></div>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="cardicon">⚙️</div>
+          <h3>Systems</h3>
+          <p>Interactive explorations for distributed systems, infrastructure, networking, and architecture.</p>
+          <span class="status">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="cardicon">🤖</div>
+          <h3>AI</h3>
+          <p>Visual experiments for LLMs, agents, embeddings, RAG, and other AI concepts.</p>
+          <span class="status">Coming soon</span>
+        </article>
+        <article class="card">
+          <div class="cardicon">🛠️</div>
+          <h3>Developer Tools</h3>
+          <p>Small, focused utilities and interactive tools built to make everyday engineering easier.</p>
+          <span class="status">Coming soon</span>
+        </article>
+      </div>
+
+      <div class="coming">
+        <strong>More experiments are coming.</strong><br>
+        Algorithms · Systems · Developer Tools · AI
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-head"><div><h2>Why a playground?</h2></div></div>
+      <div class="about">
+        <div class="aboutbox">
+          <h3>Learn by interacting</h3>
+          <p>
+            Reading an explanation is useful. Seeing the state change one step at a time
+            makes the underlying idea easier to reason about and reproduce independently.
+          </p>
+        </div>
+        <div class="aboutbox">
+          <h3>Patterns over memorization</h3>
+          <p>
+            The goal is not to memorize solutions. It is to recognize the structure,
+            form the right invariant, and derive the solution yourself.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footerrow">
+    <span>© 2026 Simran Bansal</span>
+    <span>
+      <a href="https://blog.sibansal.dev/" target="_blank" rel="noopener">Blog</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/sibansal" target="_blank" rel="noopener">GitHub</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
