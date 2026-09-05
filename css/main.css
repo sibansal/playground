@@ -450,6 +450,10 @@ section {
   box-shadow: 0 12px 30px -8px rgba(83, 142, 151, 0.2);
 }
 
+.tilt-wrap .card:hover {
+  transform: none;
+}
+
 .card-icon-wrap {
   width: 44px;
   height: 44px;
@@ -510,6 +514,16 @@ section {
   justify-content: space-between;
   padding-top: 16px;
   border-top: 1px solid rgba(41, 76, 82, 0.3);
+  position: relative;
+  z-index: 10;
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  border-color: rgba(132, 190, 194, 0.55);
 }
 
 .status-upcoming {
