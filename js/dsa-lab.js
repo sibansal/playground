@@ -5,8 +5,15 @@ const $ = id => document.getElementById(id);
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function flow(a){return `<div class="flow">${a.map((x,i)=>`<span class="node">${esc(x)}</span>${i<a.length-1?'<span class="arrow">→</span>':''}`).join("")}</div>`}
 function cells(a,active=[]){return `<div class="array">${a.map((x,i)=>`<div class="cell ${active.includes(i)?'active':''}">${esc(x)}</div>`).join("")}</div>`}
+function getDataset(){
+  if(typeof DATA !== "undefined" && Array.isArray(DATA)) return DATA;
+  if(typeof window !== "undefined" && Array.isArray(window.DATA)) return window.DATA;
+  return [];
+}
 function render(){
- let p=DATA[current];
+ const dataset = getDataset();
+ if (!dataset.length || !dataset[current]) return;
+ let p=dataset[current];
  $("app").innerHTML=`<section class="card"><span class="badge">${esc(p.pattern)}</span><span class="badge">${esc(p.difficulty)}</span><span class="counter">Problem ${current+1}/99</span>
  <h2 class="problem-title">${esc(p.title)}</h2><p><a target="_blank" href="${esc(p.url)}">LeetCode</a> · <a target="_blank" href="${BLOG}">Blog</a></p></section>
  <section class="card"><h3>Pattern introduction</h3><p>${esc(p.intro)}</p></section>
@@ -17,7 +24,8 @@ function render(){
  S={}; draw(); window.scrollTo({top:0,behavior:"smooth"});
 }
 function draw(){
- let s=$("sim"),t=DATA[current].short;if(!s)return;
+ let s=$("sim"), ds=getDataset(); if(!s || !ds[current])return;
+ let t=ds[current].short;
  if(t==="Two Pointers"){let a=[1,2,4,7,11],l=S.l??0,r=S.r??4;s.innerHTML=cells(a,[l,r])+`<p>left=${l}, right=${r}</p>`}
  else if(t==="Fast & Slow Pointers"){let a=["1","2","3","4","5","3*"],l=S.l??0,r=S.r??0;s.innerHTML=cells(a,[l,r])+`<p>slow=${l}, fast=${r}</p>`}
  else if(t==="Sliding Window"){let a=[..."abcabcbb"],l=S.l??0,r=S.r??-1;s.innerHTML=cells(a,[...Array(Math.max(0,r-l+1))].map((_,i)=>l+i))+`<p>window=[${l},${r}] · state=${[...(S.set||new Set())].join(", ")}</p>`}
@@ -45,7 +53,8 @@ function draw(){
 function reset(){S={};draw();$("status").textContent="Reset."}
 function msg(x){$("status").textContent=x}
 function step(){
- let t=DATA[current].short;
+ let ds=getDataset(); if(!ds[current])return;
+ let t=ds[current].short;
  if(t==="Two Pointers"){S.l??=0;S.r??=4;let a=[1,2,4,7,11];if(S.l>=S.r)return msg("Search exhausted.");let sum=a[S.l]+a[S.r];if(sum<9){S.l++;msg(`${sum}<9 → move left rightward.`)}else if(sum>9){S.r--;msg(`${sum}>9 → move right leftward.`)}else{msg("Found target pair.");S.l=S.r}draw();return}
  if(t==="Fast & Slow Pointers"){S.l??=0;S.r??=0;S.l++;S.r=(S.r+2)%6;draw();msg(`slow=${S.l}, fast=${S.r}; relative speed reveals repeated state.`);return}
  if(t==="Sliding Window"){let a=[..."abcabcbb"];S.l??=0;S.r??=-1;S.set??=new Set();if(S.r>=a.length-1)return msg("Done.");S.r++;let c=a[S.r];while(S.set.has(c))S.set.delete(a[S.l++]);S.set.add(c);draw();msg(`Add '${c}'; shrink left until the window is valid.`);return}
@@ -70,6 +79,55 @@ function step(){
  if(t==="2D DP"){let g=[[1,3,1],[1,5,1],[4,2,1]];S.d??=[[1,null,null],[null,null,null],[null,null,null]];S.i??=0;S.j??=1;if(S.i>=3)return msg("DP complete.");let i=S.i,j=S.j;S.d[i][j]=g[i][j]+Math.min(S.d[i-1]?.[j]??Infinity,S.d[i]?.[j-1]??Infinity);if(j===2){S.i++;S.j=0}else S.j++;draw();msg("Fill from already-computed top/left states.");return}
  if(t==="Backtracking"){let c=[1,2];S.path??=[];S.outs??=[];if(S.path.length===2){S.outs.push([...S.path]);S.path.pop();draw();msg("Record solution, undo, explore another branch.");return}S.path.push(c[S.path.length]);draw();msg("Choose → explore deeper → undo later.");return}
 }
-const nav=document.querySelector("#nav");let last="";DATA.forEach((p,i)=>{if(p.pattern!==last){let g=document.createElement("div");g.className="group";g.textContent=p.pattern;nav.appendChild(g);last=p.pattern}let b=document.createElement("button");b.textContent=`${i+1}. ${p.title} (${p.difficulty})`;b.onclick=()=>{current=i;document.querySelectorAll("aside button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()};nav.appendChild(b)});
-let q=document.createElement("input");q.className="search";q.placeholder="Search all 99 problems…";q.oninput=()=>document.querySelectorAll("aside button").forEach(b=>b.style.display=b.textContent.toLowerCase().includes(q.value.toLowerCase())?"block":"none");nav.prepend(q);
-document.querySelectorAll("aside button")[0].classList.add("active");render();
+
+function init() {
+  const nav = document.querySelector("#nav");
+  const dataset = getDataset();
+  if (!nav || !dataset || !dataset.length) return;
+  nav.innerHTML = "";
+  let last = "";
+  dataset.forEach((p, i) => {
+    if (p.pattern !== last) {
+      let g = document.createElement("div");
+      g.className = "group";
+      g.textContent = p.pattern;
+      nav.appendChild(g);
+      last = p.pattern;
+    }
+    let b = document.createElement("button");
+    b.textContent = `${i + 1}. ${p.title} (${p.difficulty})`;
+    b.onclick = () => {
+      current = i;
+      document.querySelectorAll("aside button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      render();
+    };
+    nav.appendChild(b);
+  });
+
+  let q = document.createElement("input");
+  q.className = "search";
+  q.placeholder = "Search all 99 problems…";
+  q.oninput = () => {
+    const val = q.value.toLowerCase();
+    document.querySelectorAll("aside button").forEach(b => {
+      b.style.display = b.textContent.toLowerCase().includes(val) ? "block" : "none";
+    });
+  };
+  nav.prepend(q);
+
+  const firstBtn = document.querySelectorAll("aside button")[0];
+  if (firstBtn) firstBtn.classList.add("active");
+  render();
+}
+
+window.step = step;
+window.reset = reset;
+window.render = render;
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
