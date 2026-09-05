@@ -116,45 +116,159 @@ function step() {
   if (t === "2D DP") { let g = [[1, 3, 1], [1, 5, 1], [4, 2, 1]]; S.d ??= [[1, null, null], [null, null, null], [null, null, null]]; S.i ??= 0; S.j ??= 1; if (S.i >= 3) return msg("DP complete."); let i = S.i, j = S.j; S.d[i][j] = g[i][j] + Math.min(S.d[i - 1]?.[j] ?? Infinity, S.d[i]?.[j - 1] ?? Infinity); if (j === 2) { S.i++; S.j = 0 } else S.j++; draw(); msg("Fill from already-computed top/left states."); return }
   if (t === "Backtracking") { let c = [1, 2]; S.path ??= []; S.outs ??= []; if (S.path.length === 2) { S.outs.push([...S.path]); S.path.pop(); draw(); msg("Record solution, undo, explore another branch."); return } S.path.push(c[S.path.length]); draw(); msg("Choose → explore deeper → undo later."); return }
 }
+function setupSidebar() {
+  const toggleBtn = $("sidebar-toggle");
+  const fabBtn = $("mobile-fab-toggle");
+  const closeBtn = $("aside-close");
+  const backdrop = $("sidebar-backdrop");
+  const nav = $("nav");
+
+  function isMobile() {
+    return window.innerWidth <= 900;
+  }
+
+  function toggle() {
+    if (isMobile()) {
+      if (nav && nav.classList.contains("open")) {
+        closeMobile();
+      } else {
+        openMobile();
+      }
+    } else {
+      document.body.classList.toggle("sidebar-collapsed");
+      const isCollapsed = document.body.classList.contains("sidebar-collapsed");
+      try {
+        localStorage.setItem("dsa_super_hard_sidebar_collapsed", isCollapsed ? "1" : "0");
+      } catch (e) {}
+      updateToggleUI();
+    }
+  }
+
+  function openMobile() {
+    if (nav) nav.classList.add("open");
+    if (backdrop) backdrop.classList.add("active");
+    document.documentElement.classList.add("drawer-open");
+    document.body.classList.add("drawer-open");
+    updateToggleUI();
+  }
+
+  function closeMobile() {
+    if (nav) nav.classList.remove("open");
+    if (backdrop) backdrop.classList.remove("active");
+    document.documentElement.classList.remove("drawer-open");
+    document.body.classList.remove("drawer-open");
+    updateToggleUI();
+  }
+
+  function updateToggleUI() {
+    if (!toggleBtn) return;
+    const label = toggleBtn.querySelector(".toggle-btn-label");
+    if (isMobile()) {
+      const isOpen = nav && nav.classList.contains("open");
+      if (label) label.textContent = isOpen ? "Close" : "Problems";
+      toggleBtn.classList.toggle("active", isOpen);
+    } else {
+      const isCollapsed = document.body.classList.contains("sidebar-collapsed");
+      if (label) label.textContent = isCollapsed ? "Show Problems" : "Hide Problems";
+      toggleBtn.classList.toggle("active", !isCollapsed);
+    }
+  }
+
+  if (!isMobile()) {
+    try {
+      if (localStorage.getItem("dsa_super_hard_sidebar_collapsed") === "1") {
+        document.body.classList.add("sidebar-collapsed");
+      }
+    } catch (e) {}
+  }
+  updateToggleUI();
+
+  if (toggleBtn) toggleBtn.onclick = toggle;
+  if (fabBtn) fabBtn.onclick = toggle;
+  if (closeBtn) closeBtn.onclick = () => {
+    if (isMobile()) {
+      closeMobile();
+    } else {
+      document.body.classList.add("sidebar-collapsed");
+      try { localStorage.setItem("dsa_super_hard_sidebar_collapsed", "1"); } catch(e){}
+      updateToggleUI();
+    }
+  };
+  if (backdrop) backdrop.onclick = closeMobile;
+
+  window.addEventListener("resize", () => {
+    if (!isMobile()) {
+      if (backdrop) backdrop.classList.remove("active");
+      document.body.classList.remove("drawer-open");
+      if (nav) nav.classList.remove("open");
+    }
+    updateToggleUI();
+  });
+
+  window.closeSidebarIfMobile = () => {
+    if (isMobile()) {
+      closeMobile();
+    }
+  };
+}
+
 function init() {
   const nav = document.querySelector("#nav");
   const dataset = getDataset();
   if (!nav || !dataset || !dataset.length) return;
   nav.innerHTML = "";
+
+  // Top header with counter & close button
+  let topBar = document.createElement("div");
+  topBar.className = "aside-top-bar";
+  topBar.innerHTML = `
+    <span class="aside-heading">Hard Problems (${dataset.length})</span>
+    <button class="aside-close-btn" id="aside-close" aria-label="Collapse sidebar" title="Collapse sidebar">✕</button>
+  `;
+  nav.appendChild(topBar);
+
+  let q = document.createElement("input");
+  q.className = "search";
+  q.placeholder = `Search all ${dataset.length} problems…`;
+  q.oninput = () => {
+    const val = q.value.toLowerCase();
+    document.querySelectorAll("aside button.problem-btn").forEach(b => {
+      b.style.display = b.textContent.toLowerCase().includes(val) ? "block" : "none";
+    });
+  };
+  nav.appendChild(q);
+
+  let listContainer = document.createElement("div");
+  listContainer.className = "aside-list";
   let last = "";
   dataset.forEach((p, i) => {
     if (p.pattern !== last) {
       let g = document.createElement("div");
       g.className = "group";
       g.textContent = p.pattern;
-      nav.appendChild(g);
+      listContainer.appendChild(g);
       last = p.pattern;
     }
     let b = document.createElement("button");
-    b.textContent = `${i + 1}. ${p.title}`;
+    b.className = "problem-btn";
+    b.textContent = `${i + 1}. ${p.title} (${p.difficulty})`;
     b.onclick = () => {
       current = i;
-      document.querySelectorAll("aside button").forEach(x => x.classList.remove("active"));
+      document.querySelectorAll("aside button.problem-btn").forEach(x => x.classList.remove("active"));
       b.classList.add("active");
       render();
+      if (typeof window.closeSidebarIfMobile === "function") {
+        window.closeSidebarIfMobile();
+      }
     };
-    nav.appendChild(b);
+    listContainer.appendChild(b);
   });
+  nav.appendChild(listContainer);
 
-  let q = document.createElement("input");
-  q.className = "search";
-  q.placeholder = "Search all 75 problems…";
-  q.oninput = () => {
-    const val = q.value.toLowerCase();
-    document.querySelectorAll("aside button").forEach(b => {
-      b.style.display = b.textContent.toLowerCase().includes(val) ? "block" : "none";
-    });
-  };
-  nav.prepend(q);
-
-  const firstBtn = document.querySelectorAll("aside button")[0];
+  const firstBtn = document.querySelectorAll("aside button.problem-btn")[0];
   if (firstBtn) firstBtn.classList.add("active");
   render();
+  setupSidebar();
 }
 
 window.step = step;

@@ -2,13 +2,52 @@
    DSA 25 Patterns Interactive Lab Styles
    ========================================================= */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #1e3a40 #060e12;
+}
+
+html.drawer-open,
+body.drawer-open {
+  overflow: hidden !important;
+}
+
+/* Global Dark Teal Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060e12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e3a40;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
 header.dsa-header {
-  padding: 18px 4vw;
+  padding: 16px 4vw;
   border-bottom: 1px solid var(--card-border);
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(6, 19, 22, 0.85);
+  background: rgba(6, 19, 22, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -20,6 +59,42 @@ header.dsa-header {
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 8px;
+}
+
+.header-actions-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #09171b;
+  color: var(--accent-300);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.sidebar-toggle-btn:hover {
+  border-color: var(--primary);
+  color: #fff;
+  background: rgba(83, 142, 151, 0.2);
+  box-shadow: 0 0 12px rgba(83, 142, 151, 0.25);
+}
+
+.sidebar-toggle-btn.active {
+  background: rgba(83, 142, 151, 0.22);
+  border-color: var(--primary);
+  color: #fff;
 }
 
 .back-link {
@@ -49,6 +124,7 @@ header.dsa-header h1 {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #fff;
+  overflow-wrap: anywhere;
 }
 
 header.dsa-header p {
@@ -57,25 +133,108 @@ header.dsa-header p {
   font-size: 13.5px;
   max-width: 1100px;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: 320px 1fr;
+  padding-top: 24px;
+  display: flex;
+  width: 100%;
   max-width: 1600px;
   margin: auto;
   position: relative;
   z-index: 1;
+  min-height: calc(100vh - 110px);
 }
 
 aside {
+  margin-right: 24px;
+  border-radius: 24px 0 0 24px;
+  width: 320px;
+  min-width: 320px;
+  flex-shrink: 0;
   padding: 16px;
-  border-right: 1px solid var(--card-border);
+  border: 1px solid var(--card-border);
   height: calc(100vh - 110px);
   position: sticky;
   top: 110px;
-  overflow: auto;
+  overflow-y: auto;
   background: rgba(8, 14, 26, 0.6);
+  transition: width 0.25s ease, min-width 0.25s ease, padding 0.25s ease, opacity 0.25s ease;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #23454b transparent;
+}
+
+aside::-webkit-scrollbar {
+  width: 6px;
+}
+
+aside::-webkit-scrollbar-track {
+  background: rgba(6, 15, 19, 0.4);
+  border-radius: 6px;
+}
+
+aside::-webkit-scrollbar-thumb {
+  background: #23454b;
+  border-radius: 6px;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+body.sidebar-collapsed aside {
+  width: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border-right: none !important;
+  overflow: hidden !important;
+}
+
+.aside-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(83, 142, 151, 0.15);
+}
+
+.aside-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-200);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.01em;
+}
+
+.aside-close-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.aside-close-btn:hover {
+  color: #fff;
+  background: rgba(83, 142, 151, 0.2);
+  border-color: var(--card-border);
+}
+
+.aside-list {
+  display: flex;
+  flex-direction: column;
 }
 
 .search {
@@ -90,6 +249,7 @@ aside {
   font-size: 13px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
 .search:focus {
@@ -119,6 +279,7 @@ aside button {
   font-family: inherit;
   font-size: 13.5px;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
 aside button:hover,
@@ -126,12 +287,6 @@ aside button.active {
   background: #0d1c22;
   color: #fff;
   border-left: 2px solid var(--primary);
-}
-
-main.dsa-main {
-  padding: 28px 4vw 70px;
-  position: relative;
-  z-index: 1;
 }
 
 .dsa-main .card {
@@ -142,6 +297,12 @@ main.dsa-main {
   margin-bottom: 20px;
   box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.5);
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .card-meta-row {
@@ -302,6 +463,12 @@ main.dsa-main {
   font-size: 13.5px;
   line-height: 1.6;
   color: #e2e8f0;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  -webkit-overflow-scrolling: touch;
 }
 
 .problem-statement code {
@@ -312,6 +479,9 @@ main.dsa-main {
   padding: 2px 6px;
   border-radius: 4px;
   border: 1px solid rgba(83, 142, 151, 0.22);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .problem-statement pre code {
@@ -320,6 +490,8 @@ main.dsa-main {
   padding: 0;
   color: inherit;
   font-size: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .problem-statement pre strong {
@@ -330,6 +502,7 @@ main.dsa-main {
   margin: 10px 0 16px 24px;
   padding-left: 4px;
   list-style-type: disc;
+  max-width: 100%;
 }
 
 .problem-statement ul li {
@@ -337,6 +510,8 @@ main.dsa-main {
   line-height: 1.65;
   color: #cbd5e1;
   font-size: 14px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .problem-statement ul li:last-child {
@@ -364,13 +539,20 @@ main.dsa-main {
   padding: 14px;
   border: 1px solid var(--card-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
+  box-sizing: border-box;
 }
 
 .problem-statement table {
+  display: block;
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin: 16px 0;
   font-size: 13.5px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 .problem-statement th,
@@ -449,6 +631,10 @@ main.dsa-main {
   gap: 8px;
   align-items: center;
   margin: 12px 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .node {
@@ -459,6 +645,7 @@ main.dsa-main {
   font-size: 13px;
   color: var(--accent-300);
   font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
 }
 
 .arrow {
@@ -471,11 +658,16 @@ main.dsa-main {
   flex-wrap: wrap;
   gap: 8px;
   margin: 16px 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cell {
-  min-width: 44px;
-  height: 44px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 6px;
   border: 1px solid rgba(83, 142, 151, 0.25);
   border-radius: 8px;
   display: flex;
@@ -486,6 +678,7 @@ main.dsa-main {
   font-weight: 600;
   font-size: 13px;
   color: var(--accent-300);
+  box-sizing: border-box;
 }
 
 .cell.active {
@@ -506,6 +699,7 @@ main.dsa-main {
   gap: 8px;
   flex-wrap: wrap;
   margin: 14px 0;
+  max-width: 100%;
 }
 
 .controls button {
@@ -536,6 +730,8 @@ main.dsa-main {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   color: var(--accent-300);
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .small {
@@ -548,10 +744,16 @@ pre {
   border: 1px solid var(--card-border);
   border-radius: 10px;
   padding: 14px;
-  overflow: auto;
+  overflow-x: auto;
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   color: #c8d8e4;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  -webkit-overflow-scrolling: touch;
 }
 
 footer.dsa-footer {
@@ -562,17 +764,193 @@ footer.dsa-footer {
   font-size: 13px;
   position: relative;
   z-index: 1;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Mobile Drawer Backdrop */
+.sidebar-backdrop {
+  display: none;
+}
+
+/* Mobile Floating Action Button */
+.mobile-fab-toggle {
+  display: none;
 }
 
 @media (max-width: 900px) {
+  header.dsa-header {
+    padding: 14px 16px;
+  }
+
+  .header-top {
+    margin-bottom: 6px;
+  }
+
+  header.dsa-header h1 {
+    font-size: 20px;
+  }
+
+  header.dsa-header p {
+    font-size: 13px;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 10, 14, 0.75);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9990;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .sidebar-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .layout {
     display: block;
-  }
-  aside {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
     position: static;
-    height: auto;
-    max-height: 42vh;
-    border-right: 0;
-    border-bottom: 1px solid var(--card-border);
+    z-index: auto;
+    padding-top: 0;
+  }
+
+  aside {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 86vw !important;
+    max-width: 360px !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 9999 !important;
+    margin: 0 !important;
+    border-radius: 0 16px 16px 0 !important;
+    background: #081418 !important;
+    border-right: 1px solid var(--card-border) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-bottom: none !important;
+    box-shadow: 12px 0 36px rgba(0, 0, 0, 0.85);
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 20px 16px 60px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #23454b #081418;
+  }
+
+  aside::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  aside::-webkit-scrollbar-track {
+    background: #081418;
+  }
+
+  aside::-webkit-scrollbar-thumb {
+    background: #23454b;
+    border-radius: 6px;
+  }
+
+  aside.open {
+    transform: translateX(0) !important;
+  }
+
+  body.sidebar-collapsed aside {
+    width: 86vw !important;
+    max-width: 360px !important;
+    min-width: 0 !important;
+    padding: 20px 16px 60px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    border-right: 1px solid var(--card-border) !important;
+    overflow-y: auto !important;
+    transform: translateX(-105%) !important;
+  }
+
+  body.sidebar-collapsed aside.open {
+    transform: translateX(0) !important;
+  }
+
+  main.dsa-main {
+    padding: 18px 14px 75px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .dsa-main .card {
+    padding: 18px 14px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .problem-title {
+    font-size: 19px;
+  }
+
+  .mobile-fab-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 22px;
+    right: 18px;
+    z-index: 80;
+    background: #0d2229;
+    color: #fff;
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(83, 142, 151, 0.35);
+    transition: all 0.2s ease;
+  }
+
+  .mobile-fab-toggle:hover,
+  .mobile-fab-toggle:active {
+    background: var(--primary);
+    color: #061316;
+    transform: scale(1.03);
+  }
+}
+
+@media (max-width: 480px) {
+  header.dsa-header {
+    padding: 12px 12px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  main.dsa-main {
+    padding: 14px 10px 70px;
+  }
+
+  .dsa-main .card {
+    padding: 16px 12px;
+  }
+
+  .problem-title {
+    font-size: 18px;
   }
 }
