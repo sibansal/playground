@@ -3,6 +3,7 @@ const BLOG = "https://blog.sibansal.dev/the-only-25-patterns-you-need-to-master-
 let current = 0, S = {};
 const $ = id => document.getElementById(id);
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function formatMd(x){return esc(x).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')}
 function flow(a){return `<div class="flow">${a.map((x,i)=>`<span class="node">${esc(x)}</span>${i<a.length-1?'<span class="arrow">→</span>':''}`).join("")}</div>`}
 function cells(a,active=[]){return `<div class="array">${a.map((x,i)=>`<div class="cell ${active.includes(i)?'active':''}">${esc(x)}</div>`).join("")}</div>`}
 function getDataset(){
@@ -16,10 +17,10 @@ function render(){
  let p=dataset[current];
  $("app").innerHTML=`<section class="card"><span class="badge">${esc(p.pattern)}</span><span class="badge">${esc(p.difficulty)}</span><span class="counter">Problem ${current+1}/99</span>
  <h2 class="problem-title">${esc(p.title)}</h2><p><a target="_blank" href="${esc(p.url)}">LeetCode</a> · <a target="_blank" href="${BLOG}">Blog</a></p></section>
- <section class="card"><h3>Pattern introduction</h3><p>${esc(p.intro)}</p></section>
+ <section class="card"><h3>Pattern introduction</h3><p>${formatMd(p.intro)}</p></section>
  <section class="card"><h3>Flow chart</h3>${flow(p.flow)}</section>
- <section class="card"><h3>Thinking</h3><ol><li>${p.thinking}</li><li>What invariant/state must remain true after every step?</li><li>Which edge case would break a naive implementation?</li><li>Can you explain why the optimization does not lose a valid answer?</li></ol></section>
- <section class="card"><h3>Solution steps</h3><ol>${p.steps.map(x=>`<li>${x}</li>`).join("")}</ol></section>
+ <section class="card"><h3>Thinking</h3><ol><li>${formatMd(p.thinking)}</li><li>What invariant/state must remain true after every step?</li><li>Which edge case would break a naive implementation?</li><li>Can you explain why the optimization does not lose a valid answer?</li></ol></section>
+ <section class="card"><h3>Solution steps</h3><ol>${p.steps.map(x=>`<li>${formatMd(x)}</li>`).join("")}</ol></section>
  <section class="card"><h3>Interactive simulation</h3><p class="small">Step through the core mechanics before looking at the implementation. The visualization is tied to the problem's pattern family.</p><div id="sim"></div><div class="controls"><button onclick="step()">Step</button><button onclick="reset()">Reset</button></div><div id="status" class="status">Press Step to begin.</div></section>`;
  S={}; draw(); window.scrollTo({top:0,behavior:"smooth"});
 }

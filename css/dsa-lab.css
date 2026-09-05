@@ -171,6 +171,64 @@ main.dsa-main {
   letter-spacing: -0.02em;
 }
 
+.dsa-main .card h3,
+.card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-200);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.dsa-main .card p,
+.card p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.dsa-main .card p:last-child,
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.dsa-main .card ol,
+.card ol {
+  margin: 12px 0 14px 28px;
+  padding-left: 6px;
+}
+
+.dsa-main .card ol li,
+.card ol li {
+  margin-bottom: 10px;
+  line-height: 1.65;
+  color: #cbd5e1;
+  font-size: 14px;
+  padding-left: 4px;
+}
+
+.dsa-main .card ol li:last-child,
+.card ol li:last-child {
+  margin-bottom: 0;
+}
+
+.dsa-main .card ol li::marker,
+.card ol li::marker {
+  color: var(--accent-400);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.dsa-main .card strong,
+.card strong,
+.dsa-main .card b,
+.card b {
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .flow {
   display: flex;
   flex-wrap: wrap;

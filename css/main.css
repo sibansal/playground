@@ -486,6 +486,24 @@ section {
   flex-grow: 1;
 }
 
+.card ol {
+  margin: 12px 0 14px 28px;
+  padding-left: 6px;
+}
+
+.card ol li {
+  margin-bottom: 8px;
+  line-height: 1.65;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.card strong,
+.card b {
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .card-footer {
   display: flex;
   align-items: center;
