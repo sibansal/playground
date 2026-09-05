@@ -11,12 +11,48 @@ function getDataset(){
   if(typeof window !== "undefined" && Array.isArray(window.DATA)) return window.DATA;
   return [];
 }
+function copyProblemText() {
+  const el = $("problem-content");
+  if (!el) return;
+  const text = (el.innerText || el.textContent || "").trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = $("copy-btn");
+    if (btn) {
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Copied!</span>`;
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> <span>Copy Problem</span>`;
+        btn.classList.remove("copied");
+      }, 2000);
+    }
+  }).catch(() => {});
+}
+
 function render(){
  const dataset = getDataset();
  if (!dataset.length || !dataset[current]) return;
  let p=dataset[current];
- $("app").innerHTML=`<section class="card"><span class="badge">${esc(p.pattern)}</span><span class="badge">${esc(p.difficulty)}</span><span class="counter">Problem ${current+1}/99</span>
- <h2 class="problem-title">${esc(p.title)}</h2><p><a target="_blank" href="${esc(p.url)}">LeetCode</a> · <a target="_blank" href="${BLOG}">Blog</a></p></section>
+ const diffClass = (p.difficulty || "medium").toLowerCase();
+ $("app").innerHTML=`<section class="card">
+  <div class="card-meta-row">
+    <div>
+      <span class="badge">${esc(p.pattern)}</span><span class="badge ${diffClass}">${esc(p.difficulty)}</span>
+    </div>
+    <span class="counter">Problem ${current+1}/99</span>
+  </div>
+  <h2 class="problem-title">${esc(p.title)}</h2>
+  <p class="problem-links"><a target="_blank" rel="noopener noreferrer" href="${esc(p.url)}">LeetCode ↗</a> · <a target="_blank" rel="noopener noreferrer" href="${BLOG}">Blog ↗</a></p>
+ </section>
+ <section class="card problem-statement-card">
+  <div class="card-title-row">
+    <h3>Problem Statement</h3>
+    <button class="btn-copy" id="copy-btn" onclick="copyProblemText()" title="Copy problem statement to clipboard">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      <span>Copy Problem</span>
+    </button>
+  </div>
+  <div class="problem-statement" id="problem-content">${p.description || '<p>Problem statement description is currently unavailable.</p>'}</div>
+ </section>
  <section class="card"><h3>Pattern introduction</h3><p>${formatMd(p.intro)}</p></section>
  <section class="card"><h3>Flow chart</h3>${flow(p.flow)}</section>
  <section class="card"><h3>Thinking</h3><ol><li>${formatMd(p.thinking)}</li><li>What invariant/state must remain true after every step?</li><li>Which edge case would break a naive implementation?</li><li>Can you explain why the optimization does not lose a valid answer?</li></ol></section>
@@ -125,6 +161,7 @@ function init() {
 window.step = step;
 window.reset = reset;
 window.render = render;
+window.copyProblemText = copyProblemText;
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
