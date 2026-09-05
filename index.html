@@ -1,253 +1,371 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Siban Bansal Playground — interactive experiments, visualizations and tools for developers and learners.">
-<title>Playground - Simran Bansal</title>
-<style>
-:root{
-  --bg:#070b14;--bg2:#0c1220;--card:rgba(16,23,39,.78);
-  --text:#f4f7ff;--muted:#99a7c2;--line:#24304a;
-  --accent:#8ab4ff;--accent2:#b79cff;--max:1160px
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 15% 10%,rgba(89,120,255,.16),transparent 30%),
-    radial-gradient(circle at 85% 20%,rgba(164,107,255,.12),transparent 28%),
-    linear-gradient(180deg,var(--bg),var(--bg2) 60%,var(--bg))
-}
-a{color:inherit;text-decoration:none}
-.container{width:min(var(--max),calc(100% - 40px));margin:auto}
-nav{
-  height:72px;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid rgba(36,48,74,.65)
-}
-.brand{font-weight:750;letter-spacing:-.03em;font-size:17px}
-.brand span{color:var(--muted);font-weight:500}
-.navlinks{display:flex;gap:24px;color:var(--muted);font-size:14px}
-.navlinks a:hover{color:var(--text)}
-.hero{padding:105px 0 82px;text-align:center}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--line);
-  border-radius:999px;background:rgba(16,23,39,.6);color:#b7c4dd;font-size:13px
-}
-.dot{width:7px;height:7px;border-radius:50%;background:#65d391;box-shadow:0 0 15px #65d391}
-h1{
-  font-size:clamp(48px,8vw,86px);line-height:.98;letter-spacing:-.065em;
-  margin:25px 0 22px;font-weight:800
-}
-.gradient{background:linear-gradient(100deg,#fff,#9bbdff 50%,#c6a9ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{max-width:650px;margin:0 auto;color:var(--muted);font-size:18px;line-height:1.7}
-.actions{display:flex;justify-content:center;gap:11px;margin-top:30px;flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:9px;
-  border:1px solid var(--line);background:#121b2e;font-size:14px;font-weight:650
-}
-.btn.primary{background:#eef4ff;color:#0a1020;border-color:#eef4ff}
-.btn:hover{transform:translateY(-1px)}
-section{padding:42px 0}
-.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:20px}
-.section-head h2{margin:0;font-size:25px;letter-spacing:-.03em}
-.section-head p{margin:0;color:var(--muted);font-size:14px}
-.feature{
-  display:grid;grid-template-columns:1.35fr .65fr;gap:0;overflow:hidden;
-  border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(25,37,62,.9),rgba(12,18,32,.94));
-  box-shadow:0 20px 70px rgba(0,0,0,.2)
-}
-.feature-main{padding:38px}
-.icon{
-  width:50px;height:50px;border:1px solid #354766;border-radius:13px;
-  display:grid;place-items:center;background:#17243b;font-size:23px
-}
-.feature h3{font-size:31px;letter-spacing:-.04em;margin:22px 0 10px}
-.feature p{color:var(--muted);max-width:620px;line-height:1.7}
-.stats{display:flex;gap:25px;margin:24px 0 28px;flex-wrap:wrap}
-.stat strong{display:block;font-size:21px}.stat span{font-size:12px;color:var(--muted)}
-.feature-side{
-  border-left:1px solid var(--line);padding:28px;background:rgba(5,9,18,.22);
-  display:flex;flex-direction:column;justify-content:center
-}
-.mock{
-  border:1px solid #2b3b5a;border-radius:12px;background:#0a111f;padding:14px;
-  box-shadow:0 15px 40px rgba(0,0,0,.3)
-}
-.mockbar{display:flex;gap:5px;margin-bottom:13px}.mockbar i{width:7px;height:7px;border-radius:50%;background:#33425d}
-.mockrow{height:9px;border-radius:99px;background:#1c2941;margin:8px 0}.mockrow.short{width:55%}.mockrow.mid{width:76%}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{
-  padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--card);
-  transition:.2s ease
-}
-.card:hover{transform:translateY(-3px);border-color:#3a4d70}
-.card .cardicon{font-size:21px;margin-bottom:18px}
-.card h3{margin:0 0 7px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
-.status{display:inline-block;margin-top:17px;color:#8492ac;font-size:12px;border:1px solid var(--line);padding:4px 8px;border-radius:999px}
-.coming{
-  margin-top:14px;padding:25px;border:1px dashed #33415d;border-radius:14px;text-align:center;
-  color:var(--muted);background:rgba(12,18,32,.4)
-}
-.coming strong{color:#dbe5f8}
-.about{
-  display:grid;grid-template-columns:1fr 1fr;gap:18px
-}
-.aboutbox{padding:27px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
-.aboutbox h3{margin-top:0}.aboutbox p{color:var(--muted);line-height:1.7}
-footer{padding:45px 0 55px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
-.footerrow{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-@media(max-width:850px){
-  .feature,.about{grid-template-columns:1fr}.feature-side{border-left:0;border-top:1px solid var(--line)}
-  .cards{grid-template-columns:1fr 1fr}.hero{padding-top:75px}
-}
-@media(max-width:560px){
-  .container{width:min(var(--max),calc(100% - 28px))}
-  .navlinks{gap:12px}.navlinks a:nth-child(2){display:none}
-  .cards{grid-template-columns:1fr}.feature-main{padding:27px}h1{font-size:50px}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Playground — Simran Bansal</title>
+  <meta name="description"
+    content="Simran Bansal Playground — interactive experiments, visualizations, and developer labs designed to turn complex concepts into intuitive systems.">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23538e97' stroke-width='2'><path d='M4 17l6-6-6-6M12 19h8'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
 
-<header>
-  <div class="container">
-    <nav>
-      <a class="brand" href="/">Simran Bansal <span>/ Playground</span></a>
-      <div class="navlinks">
-        <a href="#playgrounds">Playgrounds</a>
-        <a href="#about">About</a>
-        <a href="https://blog.sibansal.dev/" target="_blank" rel="noopener">Blog ↗</a>
-      </div>
-    </nav>
-  </div>
-</header>
+  <!-- Ambient Glow Layers (sibansal v3.0 BgGlow) -->
+  <div class="bg-glow-tl" aria-hidden="true"></div>
+  <div class="bg-glow-br" aria-hidden="true"></div>
+  <div class="bg-grid-faint" aria-hidden="true"></div>
 
-<main>
-  <section class="hero">
+  <!-- Header / Navigation -->
+  <header>
     <div class="container">
-      <div class="eyebrow"><span class="dot"></span> Interactive learning lab</div>
-      <h1>Build. Explore.<br><span class="gradient">Understand.</span></h1>
-      <p>
-        Interactive experiments, visualizations, and developer playgrounds by Simran Bansal
-        designed to turn difficult concepts into things you can see, step through, and understand.
-      </p>
-      <div class="actions">
-        <a class="btn primary" href="#playgrounds">Explore playgrounds ↓</a>
-        <a class="btn" href="https://sibansal.dev/" target="_blank" rel="noopener">Visit Portfolio ↗</a>
+      <div class="nav-inner">
+        <a href="/" class="brand">
+          <div class="brand-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+          </div>
+          <span>Simran Bansal <span>/ Playground</span></span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="#playgrounds">Playgrounds</a>
+          <a href="#about">About</a>
+          <a href="https://sibansal.dev/" target="_blank" rel="noopener noreferrer" class="ext-link">
+            <span>Portfolio</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+          <a href="https://blog.sibansal.dev/" target="_blank" rel="noopener noreferrer" class="ext-link">
+            <span>Blog</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+        </nav>
       </div>
     </div>
-  </section>
+  </header>
 
-  <section id="playgrounds">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Playgrounds</h2>
-          <p>Interactive tools you can actually play with.</p>
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="status-badge">
+          <span class="green-dot"></span>
+          <span>Interactive learning lab</span>
         </div>
-      </div>
 
-      <article class="feature">
-        <div class="feature-main">
-          <div class="icon">🧠</div>
-          <h3>DSA Pattern Lab</h3>
-          <p>
-            Learn the 25 core DSA patterns through problem-driven visualizations.
-            Step through the algorithm, understand the invariant, follow the flow,
-            and connect the pattern to real problems.
-          </p>
-          <div class="stats">
-            <div class="stat"><strong>25</strong><span>patterns</span></div>
-            <div class="stat"><strong>99</strong><span>problems</span></div>
-            <div class="stat"><strong>Step-by-step</strong><span>simulations</span></div>
-          </div>
-          <a class="btn primary" href="https://sibansal.github.io/playground/dsa_25_patterns_all_article_problems_interactive.html" target="_blank" rel="noopener">
-            Open DSA Playground →
+        <h1>
+          Build. Explore.<br>
+          <span class="hero-gradient">Understand.</span>
+        </h1>
+
+        <p>
+          Interactive experiments, visualizations, and developer playgrounds by Simran Bansal
+          designed to turn difficult concepts into things you can see, step through, and understand.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#playgrounds">
+            <span>Explore Playgrounds</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </a>
+          <a class="btn btn-secondary" href="https://sibansal.dev/" target="_blank" rel="noopener noreferrer">
+            <span>Visit Portfolio</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
           </a>
         </div>
-        <div class="feature-side">
-          <div class="mock" aria-hidden="true">
-            <div class="mockbar"><i></i><i></i><i></i></div>
-            <div class="mockrow"></div>
-            <div class="mockrow mid"></div>
-            <div class="mockrow short"></div>
-            <div class="mockrow"></div>
-            <div class="mockrow mid"></div>
-            <div class="mockrow short"></div>
+      </div>
+    </section>
+
+    <!-- Playgrounds Section -->
+    <section id="playgrounds">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-bar"></span>
+            <h2>Playgrounds</h2>
           </div>
-          <p style="font-size:13px;color:var(--muted);margin:14px 2px 0">
-            Pattern → thinking → flow → simulation → problem
-          </p>
+          <p>Interactive tools you can actually play with and step through.</p>
         </div>
-      </article>
 
-      <div class="section-head" style="margin-top:46px">
-        <div><h2>More coming</h2><p>The playground will grow over time.</p></div>
+        <!-- Featured Lab: DSA Pattern Lab -->
+        <div class="tilt-wrap" data-tilt>
+          <div class="tilt-inner">
+            <article class="feature-card">
+              <div class="feature-main">
+                <div>
+                  <div class="feature-badge-row">
+                    <span class="tag-pill">
+                      <span class="green-dot" style="width:6px;height:6px;"></span>
+                      Live Interactive Lab
+                    </span>
+                    <span class="tag-mono">Algorithms</span>
+                  </div>
+
+                  <h3>DSA Pattern Lab</h3>
+                  <p>
+                    Learn the 25 core DSA patterns through problem-driven visualizations.
+                    Step through the algorithm, understand the invariant, follow the flow,
+                    and connect the pattern to real problems.
+                  </p>
+
+                  <div class="stats-row">
+                    <div class="stat-item">
+                      <strong>25</strong>
+                      <span>Patterns</span>
+                    </div>
+                    <div class="stat-item">
+                      <strong>99</strong>
+                      <span>Problems</span>
+                    </div>
+                    <div class="stat-item">
+                      <strong>Step-by-Step</strong>
+                      <span>Simulations</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <a class="btn btn-primary" href="./dsa_25_patterns_all_article_problems_interactive.html">
+                    <span>Open DSA Playground</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Interactive Mock Terminal / Simulation Preview -->
+              <div class="feature-side">
+                <div class="mock-window">
+                  <div class="mock-header">
+                    <div class="mock-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <span class="mock-title">two_pointers_sim.ts</span>
+                  </div>
+                  <div class="mock-body">
+                    <div class="mock-step">
+                      <span class="mock-step-num">01</span>
+                      <span>Initialize <code>left = 0, right = 4</code></span>
+                    </div>
+                    <div class="mock-array">
+                      <div class="mock-cell active">1 [L]</div>
+                      <div class="mock-cell">2</div>
+                      <div class="mock-cell">3</div>
+                      <div class="mock-cell">4</div>
+                      <div class="mock-cell active">5 [R]</div>
+                    </div>
+                    <div class="mock-step">
+                      <span class="mock-step-num">02</span>
+                      <span>Evaluate invariant: <code>sum = 6 == target</code></span>
+                    </div>
+                    <div class="mock-console">
+                      ✓ Pattern invariant satisfied: [1, 5]
+                    </div>
+                  </div>
+                </div>
+                <p
+                  style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-muted);margin:16px 2px 0;text-align:center;">
+                  Pattern → Thinking → Flow → Simulation
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Future Labs Grid -->
+        <div class="section-header" style="margin-top: 60px; margin-bottom: 20px;">
+          <div class="section-title-wrap">
+            <span class="section-bar"></span>
+            <h2>More Coming</h2>
+          </div>
+          <p>The playground will grow over time with interactive systems and developer tools.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Systems Card -->
+          <div class="tilt-wrap" data-tilt>
+            <div class="tilt-inner">
+              <article class="card">
+                <div>
+                  <div class="card-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83">
+                      </path>
+                    </svg>
+                  </div>
+                  <h3>Systems</h3>
+                  <p>Interactive explorations for distributed systems, consensus protocols, cache topologies,
+                    infrastructure, and networking architectures.</p>
+                </div>
+                <div class="card-footer">
+                  <span class="status-upcoming">
+                    <span class="yellow-dot"></span>
+                    Coming soon
+                  </span>
+                  <span class="tag-mono">Distributed</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- AI Card -->
+          <div class="tilt-wrap" data-tilt>
+            <div class="tilt-inner">
+              <article class="card">
+                <div>
+                  <div class="card-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                      <circle cx="12" cy="5" r="2"></circle>
+                      <path d="M12 7v4"></path>
+                      <line x1="8" y1="16" x2="8" y2="16"></line>
+                      <line x1="16" y1="16" x2="16" y2="16"></line>
+                    </svg>
+                  </div>
+                  <h3>AI & Agents</h3>
+                  <p>Visual experiments for LLM reasoning loops, agent orchestration, token embeddings, vector indices,
+                    and retrieval-augmented generation.</p>
+                </div>
+                <div class="card-footer">
+                  <span class="status-upcoming">
+                    <span class="yellow-dot"></span>
+                    Coming soon
+                  </span>
+                  <span class="tag-mono">Inference</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Developer Tools Card -->
+          <div class="tilt-wrap" data-tilt>
+            <div class="tilt-inner">
+              <article class="card">
+                <div>
+                  <div class="card-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+                      </path>
+                    </svg>
+                  </div>
+                  <h3>Developer Tools</h3>
+                  <p>Small, focused utilities, state inspectors, regex visualizers, and interactive helpers built to
+                    streamline everyday software engineering.</p>
+                </div>
+                <div class="card-footer">
+                  <span class="status-upcoming">
+                    <span class="yellow-dot"></span>
+                    Coming soon
+                  </span>
+                  <span class="tag-mono">Productivity</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coming Soon Strip -->
+        <div class="coming-banner">
+          <strong>More experiments are in development.</strong>
+          <div class="coming-tags">
+            <span class="tag-mono">Algorithms</span>
+            <span class="tag-mono">Distributed Systems</span>
+            <span class="tag-mono">Developer Tooling</span>
+            <span class="tag-mono">Applied AI</span>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="cards">
-        <article class="card">
-          <div class="cardicon">⚙️</div>
-          <h3>Systems</h3>
-          <p>Interactive explorations for distributed systems, infrastructure, networking, and architecture.</p>
-          <span class="status">Coming soon</span>
-        </article>
-        <article class="card">
-          <div class="cardicon">🤖</div>
-          <h3>AI</h3>
-          <p>Visual experiments for LLMs, agents, embeddings, RAG, and other AI concepts.</p>
-          <span class="status">Coming soon</span>
-        </article>
-        <article class="card">
-          <div class="cardicon">🛠️</div>
-          <h3>Developer Tools</h3>
-          <p>Small, focused utilities and interactive tools built to make everyday engineering easier.</p>
-          <span class="status">Coming soon</span>
-        </article>
+    <!-- About Section -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-bar"></span>
+            <h2>Why a Playground?</h2>
+          </div>
+          <p>The philosophy behind interactive learning and deliberate engineering practice.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>Learn by interacting</h3>
+            <p>
+              Reading an explanation is useful, but seeing the state change one step at a time
+              makes the underlying idea tangible. When you interact with edge cases directly,
+              reasoning about invariants becomes second nature.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3>Patterns over memorization</h3>
+            <p>
+              The goal is never to memorize rote solutions. It is to recognize deep structural
+              patterns, establish the correct mental model, and build the confidence to derive
+              first-principles solutions to novel problems.
+            </p>
+          </div>
+        </div>
       </div>
+    </section>
+  </main>
 
-      <div class="coming">
-        <strong>More experiments are coming.</strong><br>
-        Algorithms · Systems · Developer Tools · AI
-      </div>
-    </div>
-  </section>
-
-  <section id="about">
+  <!-- Footer -->
+  <footer>
     <div class="container">
-      <div class="section-head"><div><h2>Why a playground?</h2></div></div>
-      <div class="about">
-        <div class="aboutbox">
-          <h3>Learn by interacting</h3>
-          <p>
-            Reading an explanation is useful. Seeing the state change one step at a time
-            makes the underlying idea easier to reason about and reproduce independently.
-          </p>
-        </div>
-        <div class="aboutbox">
-          <h3>Patterns over memorization</h3>
-          <p>
-            The goal is not to memorize solutions. It is to recognize the structure,
-            form the right invariant, and derive the solution yourself.
-          </p>
+      <div class="footer-row">
+        <span>© 2026 Simran Bansal. Built for inquisitive engineers.</span>
+        <div class="footer-links">
+          <a href="https://sibansal.dev/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+          <a href="https://blog.sibansal.dev/" target="_blank" rel="noopener noreferrer">Blog</a>
+          <a href="https://github.com/sibansal" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
       </div>
     </div>
-  </section>
-</main>
+  </footer>
 
-<footer>
-  <div class="container footerrow">
-    <span>© 2026 Simran Bansal</span>
-    <span>
-      <a href="https://blog.sibansal.dev/" target="_blank" rel="noopener">Blog</a>
-      &nbsp;·&nbsp;
-      <a href="https://github.com/sibansal" target="_blank" rel="noopener">GitHub</a>
-    </span>
-  </div>
-</footer>
-
+  <!-- Modular Tilt Interaction Script -->
+  <script src="js/tilt.js"></script>
 </body>
+
 </html>
