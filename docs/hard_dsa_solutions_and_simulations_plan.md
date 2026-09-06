@@ -133,34 +133,63 @@ Each problem will contain the following structured knowledge in `js/dsa-super-ha
 
 ---
 
-## 3. Interactive Simulation Architecture
+## 3. Interactive Simulation Architecture & Code Synchronization
 
-Instead of falling back to 25 generic category mocks, each problem now has an execution state engine:
-- Concrete inputs pulled directly from LeetCode standard test cases (e.g. `height = [0,1,0,2,1,0,1,3,2,1,2,1]`, `points = [[1,3],[2,0],[5,10],[6,-10]], k = 1`).
-- Custom SVG / HTML visualizer displaying arrays, pointers (`L`, `R`), monotonic stacks, priority queues, binary trees, grids, and graphs.
-- Step-by-step transitions reflecting the actual Python code execution.
-- Dynamic explanation message for every step showing current variable states, comparisons, and invariant checks.
-
----
-
-## 4. UI / UX Enhancements ("Reveal Code" & Deep Analysis Cards)
-
-1. **Reveal Code Card**:
-   - Title: `Python Solution (Minimal Lines)`
-   - Tags: Line Count badge (`12 lines`), Time Complexity badge (`O(N)`), Space Complexity badge (`O(1)`).
-   - "Reveal Code" toggle button with smooth expand/collapse.
-   - One-click "Copy Code" button with instant visual feedback (`Copied!`).
-   - Clean dark syntax highlighting with line numbering.
-
-2. **Why Better Than Brute Force Card**:
-   - Visual comparison table/callout highlighting Brute Force vs. Optimal Solution.
-   - Algorithmic explanation of search-space reduction and invariant mechanics.
-
-3. **Edge Cases & Break Points Card**:
-   - Bulleted checklist highlighting critical break points, off-by-one hazards, empty/singleton behavior, and constraint extremes.
+Instead of generic category mocks, each problem features a specialized visual execution state engine:
+- **Concrete Inputs**: Standard LeetCode test cases (e.g. `height = [0,1,0,2,1,0,1,3,2,1,2,1]`, `points = [[1,1],[2,2],[3,3]]`, `routes = [[1,2,7],[3,6,7]]`).
+- **Synchronized Code-Line Highlighting**:
+  - The **"Reveal Code" (Python Solution)** card is positioned **directly beneath the Interactive Simulation card**.
+  - When the Python Solution is toggled open, advancing or rewinding simulation steps dynamically highlights the exact corresponding line(s) of code executing in that step (`line: N` or `highlightLines: [N]`).
+  - Active lines display an animated execution glow (`.code-line.executing`), left accent indicator, and automatic smooth scrolling to keep the active line in view.
 
 ---
 
-## 5. Verification & Testing Strategy
-- Automated validation via Node.js script: test that all 75 problems possess complete Python code, complexity attributes, brute-force comparisons, edge cases, and working step functions.
-- Manual browser verification: run local dev server, interact with multiple problems across different pattern families, test Reveal Code expand/collapse, Copy Code, Step simulation, and Reset.
+## 4. Graph & 2D Points Visualization with Dynamic Animations
+
+For all problems involving **Graphs, Trees, Topologies, Networks, and 2D Coordinates/Points**:
+1. **Interactive SVG Graph Visualizer**:
+   - Renders vertices as interactive SVG nodes with labeled IDs and values.
+   - Directed and undirected edges with arrowheads (`marker-end`) and optional edge weights (e.g. Dijkstra relaxation costs, flow capacities).
+   - Dynamic node state color-coding:
+     - `Unvisited`: Muted border with subtle fill.
+     - `Active / Frontier / In-Queue`: Pulsing neon cyan/teal ring with glowing drop shadow.
+     - `Processing / Relaxed`: Warm amber/orange highlight while evaluating neighbors.
+     - `Finalized / Visited`: Emerald green fill signifying visited state.
+   - Animated edge traversal: SVG `stroke-dasharray` and `stroke-dashoffset` keyframe animations simulate the flow of search frontier along edges from parent to child.
+2. **2D Coordinate & Points Visualizer (Geometry / Points Problems)**:
+   - For problems such as *Max Points on a Line*, *The Skyline Problem*, *Trapping Rain Water II*:
+   - SVG Cartesian plane with axes, gridlines, and labeled coordinates `(x, y)`.
+   - Points rendered as animated circles that pulse when being evaluated.
+   - Dynamic geometric overlays: animated slope rays, convex boundaries, or sweeping vertical lines (e.g. sweep-line for Skyline).
+3. **2D Matrix / Grid Flow Visualizer**:
+   - For 2D grid graph problems (e.g. *Swim in Rising Water*, *Making A Large Island*, *Shortest Path Visiting All Nodes*):
+   - Grid cells dynamically animated with water levels, BFS/DFS traversal waves, and connected component color clustering.
+
+---
+
+## 5. UI / UX Layout Hierarchy
+
+The problem view layout is arranged to ensure optimal side-by-side comprehension:
+1. **Problem Statement & Metadata**: Title, pattern badge, difficulty, LeetCode & Blog links, copy statement button.
+2. **Pattern Introduction & Flowchart**: Conceptual framework and visual ASCII/node flow.
+3. **Thinking & Solution Steps**: Invariant checks, algorithmic intuition, and enumerated implementation steps.
+4. **Interactive Simulation Card**:
+   - Input display box with sample test case.
+   - Visual execution stage (Arrays, SVG Graph/Tree/Points canvas, or Matrix).
+   - Variable watch display (pointers, accumulators, queues, distances).
+   - Step navigation controls (`← Prev`, `Step →`, `Reset`, step progress badge `Step X of Y`).
+   - Dynamic status log detailing the current operation and invariant check.
+5. **Python Solution Card (Reveal Code)** — *Positioned directly under Simulation*:
+   - Immediate visual connection between visual state machine and actual code lines.
+   - Code metadata badges (line count, time complexity, space complexity).
+   - "Reveal Code" toggle button and "Copy Code" button.
+   - Syntax-highlighted code with dynamic line execution highlighting synchronized with the simulation.
+6. **Why Better Than Brute Force Card**: Complexity comparison badge and in-depth pruning analysis.
+7. **Edge Cases & Break Points Card**: Specific checklist of boundary traps and algorithmic failure modes.
+
+---
+
+## 6. Verification & Testing Strategy
+- Automated validation via Node.js script: test that all 75 problems possess complete Python code, complexity attributes, brute-force comparisons, edge cases, step configurations with line mappings, and graph configurations.
+- Visual animation validation in browser: verify that stepping updates graph node states, triggers edge animations, and highlights the corresponding code line in the code block.
+
