@@ -954,3 +954,299 @@ footer.dsa-footer {
     font-size: 18px;
   }
 }
+
+/* =========================================================
+   Reveal Code & Minimal-Line Python Solution Styles
+   ========================================================= */
+
+.reveal-code-card {
+  position: relative;
+  border-color: rgba(83, 142, 151, 0.35);
+  background: linear-gradient(180deg, rgba(8, 22, 27, 0.96) 0%, rgba(6, 17, 20, 0.98) 100%);
+}
+
+.code-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.code-meta-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.badge-lines {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-weight: 600;
+}
+
+.badge-time {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+.badge-space {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.code-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-reveal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(83, 142, 151, 0.18);
+  color: #e2e8f0;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn-reveal:hover {
+  background: var(--primary);
+  color: #061316;
+  box-shadow: 0 0 14px rgba(83, 142, 151, 0.4);
+}
+
+.btn-reveal.active {
+  background: rgba(83, 142, 151, 0.28);
+  color: #fff;
+  border-color: #38bdf8;
+}
+
+.code-container {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin-top 0.25s ease;
+}
+
+.code-container.revealed {
+  max-height: 2500px;
+  opacity: 1;
+  margin-top: 14px;
+}
+
+.code-block {
+  margin: 0;
+  padding: 16px 18px;
+  background: #040c0f;
+  border: 1px solid rgba(83, 142, 151, 0.25);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.code-line {
+  display: flex;
+  align-items: baseline;
+  min-height: 21px;
+}
+
+.code-line:hover {
+  background: rgba(83, 142, 151, 0.08);
+  border-radius: 4px;
+}
+
+.line-num {
+  user-select: none;
+  min-width: 32px;
+  padding-right: 16px;
+  color: #475569;
+  text-align: right;
+  font-size: 11.5px;
+}
+
+.line-code {
+  flex: 1;
+  white-space: pre;
+  color: #cbd5e1;
+}
+
+/* Syntax Highlighting Tokens */
+.tok-kw { color: #f472b6; font-weight: 600; }
+.tok-type { color: #38bdf8; }
+.tok-fn { color: #34d399; font-weight: 500; }
+.tok-num { color: #fbbf24; }
+.tok-comment { color: #64748b; font-style: italic; }
+
+/* =========================================================
+   Why Better Than Brute Force & Edge Cases Cards
+   ========================================================= */
+
+.brute-force-card {
+  border-left: 4px solid #38bdf8;
+  background: linear-gradient(180deg, rgba(7, 20, 26, 0.94) 0%, rgba(6, 17, 21, 0.97) 100%);
+}
+
+.complexity-compare {
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-size: 11.5px;
+}
+
+.brute-force-explanation {
+  color: #cbd5e1;
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.edge-cases-card {
+  border-left: 4px solid #fbbf24;
+}
+
+.edge-cases-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.edge-cases-list li {
+  margin-bottom: 8px;
+}
+
+.edge-cases-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   Problem-Specific Interactive Simulation Enhancements
+   ========================================================= */
+
+.sim-input-box {
+  background: #040d11;
+  border: 1px solid rgba(83, 142, 151, 0.25);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sim-input-label {
+  color: var(--accent-300);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sim-input-code {
+  color: #38bdf8;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+}
+
+.sim-vars-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.sim-var-card {
+  background: #091a20;
+  border: 1px solid rgba(83, 142, 151, 0.28);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sim-var-name {
+  color: var(--accent-300);
+  font-weight: 600;
+}
+
+.sim-var-val {
+  color: #f1f5f9;
+}
+
+.sim-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.sim-step-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: #7dd3fc;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.btn-sim {
+  background: #0d2026;
+  color: #e2e8f0;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn-sim:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: #fff;
+  background: rgba(83, 142, 151, 0.22);
+}
+
+.btn-sim-primary {
+  background: rgba(83, 142, 151, 0.25);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-sim-primary:hover:not(:disabled) {
+  background: var(--primary);
+  color: #061316;
+}
+
+.btn-sim:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
